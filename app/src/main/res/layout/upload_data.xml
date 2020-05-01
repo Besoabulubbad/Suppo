@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/drawbg">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:animateLayoutChanges="true"
+
+        >
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aguafina_script"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/text"
+        android:textSize="70sp"
+        android:gravity="center_horizontal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+    <ImageButton
+        android:layout_marginTop="15dp"
+        android:id="@+id/imageButton1"
+        android:layout_width="150dp"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimaryDark"
+       android:contentDescription="TODO" android:src="@drawable/ic_account" />
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/imageButton1"
+            android:id="@+id/pf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Profile Picture"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+
+    <EditText
+        android:layout_marginTop="15dp"
+        android:id="@+id/fname"
+        android:layout_width="match_parent"
+        android:inputType="textPersonName"
+        android:layout_height="wrap_content"
+        android:maxLength="10"
+        android:hint="First Name"
+        android:fontFamily="@font/poppins"
+        android:layout_below="@+id/pf"
+        />
+    <EditText
+        android:layout_marginTop="15dp"
+        android:id="@+id/lname"
+        android:layout_width="match_parent" android:inputType="textPersonName"
+        android:layout_height="wrap_content"
+        android:maxLength="10"
+        android:hint="Last Name"
+        android:fontFamily="@font/poppins"
+        android:layout_below="@+id/fname"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        android:layout_below="@+id/lname"
+
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="6 Digit PassCode"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <EditText
+        android:id="@+id/rep"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Re-Enter PassCode"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:layout_below="@+id/etPasswordLayout"
+        android:autofillHints="" />
+        <Button
+
+            android:id="@+id/next"
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rep"
+            android:background="@color/text"
+            android:fontFamily="Poppins"
+            android:text="Next"
+            android:textStyle="normal" />
+    </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>
