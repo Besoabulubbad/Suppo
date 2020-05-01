@@ -10,4 +10,9 @@ public class ChatActivity extends AppCompatActivity {
             setContentView(R.layout.chat_layout);
 
     }
+    @Override
+    public void onBackPressed() {
+
+    }
+
 }
