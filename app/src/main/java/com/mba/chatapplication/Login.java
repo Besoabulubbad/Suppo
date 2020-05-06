@@ -18,6 +18,7 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +41,7 @@ public class Login  extends AppCompatActivity implements View.OnClickListener   
     DatabaseReference myRef = database.getReference().child("users");
     String mVerificationId;
     ProgressDialog progressDialog;
+    FirebaseUser firebaseUser;
     boolean verfication=false;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
@@ -47,6 +49,7 @@ public class Login  extends AppCompatActivity implements View.OnClickListener   
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         initFields();
         ccp1.registerCarrierNumberEditText(etPhone);
         ccp1.setNumberAutoFormattingEnabled(false);

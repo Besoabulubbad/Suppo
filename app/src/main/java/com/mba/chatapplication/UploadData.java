@@ -50,6 +50,7 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
     int image;
     Intent GalIntent;
    String  phoneNumber;
+   FirebaseUser firebaseUser;
     Bundle bundle;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference().child("users");
@@ -62,6 +63,7 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_data);
+        firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
         initFields();
          image = profilePicture.getBackground().hashCode();
         bundle=getIntent().getExtras();
@@ -125,11 +127,11 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
                             progressDialog.show(); // Display Progress Dialog
                             progressDialog.setCancelable(false);
-                            myRef.child(phoneNumber).child("fName").setValue(fn.getText().toString());
-                            myRef.child(phoneNumber).child("lName").setValue(ln.getText().toString());
-                            myRef.child(phoneNumber).child("passCode").setValue(passcode.getText().toString());
+                            myRef.child(firebaseUser.getPhoneNumber()).child("fName").setValue(fn.getText().toString());
+                            myRef.child(firebaseUser.getPhoneNumber()).child("lName").setValue(ln.getText().toString());
+                            myRef.child(firebaseUser.getPhoneNumber()).child("passCode").setValue(passcode.getText().toString());
 
-                                        myRef.child(phoneNumber).child("fName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        myRef.child(firebaseUser.getPhoneNumber()).child("fName").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.exists()) {
@@ -143,7 +145,7 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                                                     // Let the user know he needs to pick another username.
                                                 } else {
                                                     progressDialog.dismiss();
-                                                    Toast.makeText(UploadData.this,"Failed Uploading Data Pleas Try Again", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(UploadData.this,"Failed Uploading Data Please Try Again", Toast.LENGTH_LONG).show();
                                                     // User does not exist. NOW call createUserWithEmailAndPassword;
                                                     // Your previous code here.
                                                     return;

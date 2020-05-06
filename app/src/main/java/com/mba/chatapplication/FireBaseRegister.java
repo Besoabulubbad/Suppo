@@ -19,6 +19,7 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
@@ -43,6 +44,7 @@ public class FireBaseRegister extends AppCompatActivity implements View.OnClickL
     String nnumberl;
     ProgressDialog progressDialog;
     LinearLayout l1;
+    FirebaseUser firebaseUser;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference().child("users");
     SmsVerifyCatcher smsVerifyCatcher;
@@ -62,7 +64,7 @@ boolean verfication=false;
     ccp1.setNumberAutoFormattingEnabled(false);
     //Add it in the onCreate method, after calling method initFields()
         mAuth = FirebaseAuth.getInstance();
-
+firebaseUser =FirebaseAuth.getInstance().getCurrentUser();
     initFireBaseCallbacks();
     smsVerifyCatcher();
 
@@ -255,6 +257,7 @@ void smsVerifyCatcher() {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(FireBaseRegister.this, "Verification Success", Toast.LENGTH_SHORT).show();
                                             // Display Progress Dialog
+                                            myRef.child(nnumberl).child("User ID").setValue(firebaseUser.getUid());
                                             myRef.child(nnumberl).child("Phone Number:").setValue(nnumberl);
                                             Intent intent = new Intent(FireBaseRegister.this, UploadData.class);
                                             Bundle bundle = new Bundle();
