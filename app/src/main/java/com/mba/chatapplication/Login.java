@@ -191,7 +191,6 @@ public class Login  extends AppCompatActivity implements View.OnClickListener   
                                     if (task.isSuccessful()) {
                                         Toast.makeText(Login.this, "Verification Success", Toast.LENGTH_SHORT).show();
                                         // Display Progress Dialog
-                                        myRef.child(nnumberl).child("Phone Number:").setValue(nnumberl);
                                         Intent intent = new Intent(Login.this, ChatActivity.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putString("PhoneNumber", nnumberl);

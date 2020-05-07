@@ -66,9 +66,7 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
         initFields();
          image = profilePicture.getBackground().hashCode();
-        bundle=getIntent().getExtras();
-        assert bundle != null;
-        phoneNumber = bundle.getString("PhoneNumber");
+
 
 
     }
@@ -127,6 +125,8 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
                             progressDialog.show(); // Display Progress Dialog
                             progressDialog.setCancelable(false);
+                            myRef.child(firebaseUser.getPhoneNumber()).child("UserID").setValue(firebaseUser.getUid());
+                            myRef.child(firebaseUser.getPhoneNumber()).child("PhoneNumber").setValue(firebaseUser.getPhoneNumber());
                             myRef.child(firebaseUser.getPhoneNumber()).child("fName").setValue(fn.getText().toString());
                             myRef.child(firebaseUser.getPhoneNumber()).child("lName").setValue(ln.getText().toString());
                             myRef.child(firebaseUser.getPhoneNumber()).child("passCode").setValue(passcode.getText().toString());

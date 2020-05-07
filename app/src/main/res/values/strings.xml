@@ -3,4 +3,7 @@
     <string name="splashString" translatable="false">Some are born great,some achieve greatness, and some have greatness thrus upon them.</string>
     <string name="welcome" translatable="false">Welcome</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

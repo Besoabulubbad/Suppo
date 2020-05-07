@@ -1,48 +1,48 @@
 package Model;
 
 public class User {
-    private  String UID;
+    private  String PhoneNumber;
+    private  String UserID;
     private  String fName;
     private  String lName;
-    private  String passcode;
+    private  String passCode;
 
-    public User(String UID, String fName, String lName, String passcode) {
-        this.UID = UID;
+    public User(String PhoneNumber, String UserID, String fName, String lName, String passCode) {
+        this.PhoneNumber=PhoneNumber;
+        this.UserID = UserID;
         this.fName = fName;
         this.lName = lName;
-        this.passcode = passcode;
+        this.passCode = passCode;
     }
     public  User(){}
-
-    public String getUID() {
-        return UID;
+public void setUserPhone(String phoneNumber)
+{
+    this.PhoneNumber=phoneNumber;
+}
+public  String  getPhoneNumber()
+{
+    return PhoneNumber;
+}
+    public String getUID() { return UserID;}
+    public void setUID(String UserID) {
+        this.UserID = UserID;
     }
-
-    public void setUID(String UID) {
-        this.UID = UID;
-    }
-
     public String getfName() {
         return fName;
     }
-
     public void setfName(String fName) {
         this.fName = fName;
     }
-
     public String getlName() {
         return lName;
     }
-
     public void setlName(String lName) {
         this.lName = lName;
     }
-
     public String getPasscode() {
-        return passcode;
+        return passCode;
     }
-
     public void setPasscode(String passcode) {
-        this.passcode = passcode;
+        this.passCode = passcode;
     }
 }
