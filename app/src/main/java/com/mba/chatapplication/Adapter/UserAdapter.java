@@ -1,6 +1,9 @@
 package com.mba.chatapplication.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +13,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.mba.chatapplication.MessageActivity;
 import com.mba.chatapplication.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import Model.User;
@@ -35,11 +45,36 @@ public UserAdapter(Context mContext,List<User> mUser)
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = mUsers.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final User user = mUsers.get(position);
         holder.username.setText(user.getfName()+" "+user.getlName());
-        holder.profile_image.setImageResource(R.drawable.ic_account);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReference();
+        StorageReference imagesRef = storageRef.child("ProfileImages/"+user.getUID()+".jpeg");
+        try {
+            final File localFile = File.createTempFile("images", "jpg");
+            imagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    holder.profile_image.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MessageActivity.class);
+                intent.putExtra("UserID",user.getUID());
+                intent.putExtra("PhoneNumber",user.getPhoneNumber());
+                mContext.startActivity(intent);
+            }
+        });
+    }
+
 
     @Override
     public int getItemCount() {

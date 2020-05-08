@@ -183,26 +183,8 @@ void smsVerifyCatcher() {
                         } else {
                             // User does not exist. NOW call createUserWithEmailAndPassword;
                             // Your previous code here.
-                            progressDialog = new ProgressDialog(FireBaseRegister.this);
-                            progressDialog.setMessage("Loading..."); // Setting Message
-                            progressDialog.setTitle("ProgressDialog"); // Setting Title
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
-                            progressDialog.show(); // Display Progress Dialog
-                            progressDialog.setCancelable(false);
-                            new Thread(new Runnable() {
-                                public void run() {
-                                    try {
+
                                         authphone();
-
-                                                    progressDialog.dismiss();
-
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-
-                                    }
-                                }
-                            }).start();
 
 
                         }
