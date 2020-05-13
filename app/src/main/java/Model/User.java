@@ -2,6 +2,15 @@ package Model;
 
 public class User {
     private  String PhoneNumber;
+
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
     private  String UserID;
     private  String fName;
     private  String lName;
@@ -23,10 +32,7 @@ public  String  getPhoneNumber()
 {
     return PhoneNumber;
 }
-    public String getUID() { return UserID;}
-    public void setUID(String UserID) {
-        this.UserID = UserID;
-    }
+
     public String getfName() {
         return fName;
     }

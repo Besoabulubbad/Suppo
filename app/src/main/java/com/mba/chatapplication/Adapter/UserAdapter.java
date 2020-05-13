@@ -51,7 +51,7 @@ public UserAdapter(Context mContext,List<User> mUser)
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("ProfileImages/"+user.getUID()+".jpeg");
+        StorageReference imagesRef = storageRef.child("ProfileImages/"+user.getUserID()+".jpeg");
         try {
             final File localFile = File.createTempFile("images", "jpg");
             imagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -68,7 +68,7 @@ public UserAdapter(Context mContext,List<User> mUser)
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("UserID",user.getUID());
+                intent.putExtra("UserID",user.getUserID());
                 intent.putExtra("PhoneNumber",user.getPhoneNumber());
                 mContext.startActivity(intent);
             }

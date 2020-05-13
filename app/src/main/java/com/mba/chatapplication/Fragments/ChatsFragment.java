@@ -21,6 +21,7 @@ import com.mba.chatapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import Model.Chat;
 import Model.User;
@@ -84,16 +85,19 @@ public class ChatsFragment extends Fragment {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren())
                 {
                     User user = snapshot.getValue(User.class);
-                    for(String phoneNumber :userList)
+                    for(String phoneNumber : userList)
                     {
                         if(user.getPhoneNumber().equals(phoneNumber))
                         {
                             if(mUsers.size()!=0)
                             {
-                                for(User user1:mUsers) {
-                                    if (!user.getPhoneNumber().equals(user1.getPhoneNumber()))
+                                for (ListIterator<User> it = mUsers.listIterator(); it.hasNext(); ) {
+                                    User user1 = it.next();
+
+                                    if (!user.getPhoneNumber().equals(user1.getPhoneNumber()) &!mUsers.contains(user))
                                     {
-                                        mUsers.add(user);
+
+                                        it.add(user);
                                     }
                                 }
                             }

@@ -81,11 +81,11 @@ List<Chat> mChat;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user =dataSnapshot.getValue(User.class);
-                user.setUID(dataSnapshot.child("UserID").getValue().toString());
+                user.setUserID(dataSnapshot.child("UserID").getValue().toString());
                 username.setText(user.getfName()+" "+user.getlName());
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
-                StorageReference imagesRef = storageRef.child("ProfileImages/"+user.getUID()+".jpeg");
+                StorageReference imagesRef = storageRef.child("ProfileImages/"+user.getUserID()+".jpeg");
                 try {
                     final File localFile = File.createTempFile("images", "jpg");
                     imagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {

@@ -53,7 +53,7 @@ private List<User> mUsers;
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     User user = snapshot.getValue(User.class);
-                    user.setUID(snapshot.child("UserID").getValue().toString());
+                    user.setUserID(snapshot.child("UserID").getValue().toString());
                     if(!user.getPhoneNumber().equals(firebaseUser.getPhoneNumber()))
                     {
                         mUsers.add(user);

@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user =dataSnapshot.getValue(User.class);
                     String a= dataSnapshot.child("UserID").getValue().toString();
-                    user.setUID(a);
+                    user.setUserID(a);
                     username.setText(user.getfName() + " "+user.getlName());
                 }
 
