@@ -3,30 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
-<RelativeLayout
-     android:layout_width="300dp"
-    android:layout_alignParentEnd="true"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:visibility="gone"
-        android:id="@+id/profile_image"
-        android:src="@drawable/ic_account"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/profile_image"
-        android:id="@+id/show_message"
-        android:textSize="18sp"
+    <RelativeLayout
+        android:layout_width="300dp"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/background_right"
-        android:fontFamily="@font/abril_fatface"
-        android:textColor="@color/text"
-        android:text="Hello"
-        android:padding="8dp"
-        android:layout_alignParentRight="true" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
 
-</RelativeLayout>
+
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="visible"
+            android:id="@+id/profile_image"
+            android:src="@drawable/ic_account"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/show_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_right"
+            android:fontFamily="@font/abril_fatface"
+            android:padding="8dp"
+            android:layout_toStartOf="@+id/profile_image"
+            android:text="Hello"
+            android:textColor="@color/text"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
 </RelativeLayout>
