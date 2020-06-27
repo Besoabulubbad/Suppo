@@ -30,6 +30,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mba.chatapplication.Fragments.ChatsFragment;
+import com.mba.chatapplication.Fragments.ProfileFragment;
 import com.mba.chatapplication.Fragments.UsersFragment;
 
 import java.io.File;
@@ -77,11 +78,12 @@ public class ChatActivity extends AppCompatActivity {
 ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
 viewPagerAdapter.addFragment(new ChatsFragment(),"Chats");
 viewPagerAdapter.addFragment(new UsersFragment(),"Users");
+viewPagerAdapter.addFragment(new ProfileFragment(),"Profile");
+
 viewPager.setAdapter(viewPagerAdapter);
 tabLayout.setupWithViewPager(viewPager);
 
     }
-
 
 
     void getDownloadableLink()
@@ -129,8 +131,8 @@ tabLayout.setupWithViewPager(viewPager);
         switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ChatActivity.this,MainActivity.class));
-                finish();
+                startActivity(new Intent(ChatActivity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
                 return true;
         }
         return false;

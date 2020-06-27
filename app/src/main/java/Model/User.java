@@ -2,6 +2,7 @@ package Model;
 
 public class User {
     private  String PhoneNumber;
+    private String status;
 
     public String getUserID() {
         return UserID;
@@ -16,12 +17,21 @@ public class User {
     private  String lName;
     private  String passCode;
 
-    public User(String PhoneNumber, String UserID, String fName, String lName, String passCode) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User(String PhoneNumber, String UserID, String fName, String lName, String passCode, String status) {
         this.PhoneNumber=PhoneNumber;
         this.UserID = UserID;
         this.fName = fName;
         this.lName = lName;
         this.passCode = passCode;
+        this.status=status;
     }
     public  User(){}
 public void setUserPhone(String phoneNumber)

@@ -27,6 +27,7 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
     public static final int MSG_TYPE_RIGHT=1;
 
 
+
     public Message_Adapter(Context mContext,List<Chat> mChat,String imageURL)
     {
         this.mChat=mChat;
@@ -54,6 +55,18 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
     public void onBindViewHolder(@NonNull final Message_Adapter.ViewHolder holder, int position) {
         Chat chat = mChat.get(position);
         holder.show_message.setText(chat.getMessage());
+        if(position == mChat.size()-1)
+        {
+            if(chat.isIsseen())
+            {
+                holder.isSeen.setText("Seen");
+            }
+            else
+            {holder.isSeen.setText("Delivered");
+            }
+        }
+        else
+            holder.isSeen.setVisibility(View.GONE);
 
     }
 
@@ -67,12 +80,13 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
     {
         public TextView show_message;
         public ImageView profile_image;
+        public TextView isSeen;
         public ViewHolder(View itemView)
         {
             super(itemView);
             show_message=itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.profileImage12);
-
+            isSeen=   itemView.findViewById(R.id.seen);
         }
 
     }

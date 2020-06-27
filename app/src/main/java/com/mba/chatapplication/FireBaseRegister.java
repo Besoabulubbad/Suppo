@@ -28,12 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
-import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
-import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
 
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FireBaseRegister extends AppCompatActivity implements View.OnClickListener {
     EditText etPhone, etOtp;
@@ -47,8 +43,7 @@ public class FireBaseRegister extends AppCompatActivity implements View.OnClickL
     FirebaseUser firebaseUser;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference().child("users");
-    SmsVerifyCatcher smsVerifyCatcher;
-boolean verfication=false;
+    boolean verfication=false;
 
 
 
@@ -62,54 +57,17 @@ boolean verfication=false;
     initFields();
     ccp1.registerCarrierNumberEditText(etPhone);
     ccp1.setNumberAutoFormattingEnabled(false);
+
     //Add it in the onCreate method, after calling method initFields()
         mAuth = FirebaseAuth.getInstance();
 firebaseUser =FirebaseAuth.getInstance().getCurrentUser();
     initFireBaseCallbacks();
-    smsVerifyCatcher();
 
 
 
-}
-void smsVerifyCatcher() {
-    smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
-        @Override
-        public void onSmsCatch(String message) {
-            String code = extractDigits(message);//Parse verification code
-            etOtp.setText(code);//set code in edit text
-            //then you can send verification code to server
-        }
-    });
 
 }
-    public static String extractDigits(final String in) {
-        final Pattern p = Pattern.compile( "(\\d{6})" );
-        final Matcher m = p.matcher( in );
-        if ( m.find() ) {
-            return m.group( 0 );
-        }
-        return "";
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        smsVerifyCatcher.onStart();
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        smsVerifyCatcher.onStop();
-    }
-
-    /**
-     * need for Android 6 real time permissions
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
 
     void initFireBaseCallbacks() {
@@ -144,6 +102,7 @@ void smsVerifyCatcher() {
 
 
                 mVerificationId = verificationId;
+
                 //Add this line to save //verification Id
             }
         };
@@ -240,6 +199,7 @@ void smsVerifyCatcher() {
                                             Toast.makeText(FireBaseRegister.this, "Verification Success", Toast.LENGTH_SHORT).show();
                                             // Display Progress Dialog
                                             Intent intent = new Intent(FireBaseRegister.this, UploadData.class);
+
                                             progressDialog.dismiss();
                                             startActivity(intent);
 

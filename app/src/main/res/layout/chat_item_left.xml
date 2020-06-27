@@ -18,5 +18,11 @@
         android:padding="8dp"
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginStart="5dp" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seen"
+        android:visibility="gone"
+        android:layout_below="@id/show_message"
+      />
 </RelativeLayout>

@@ -54,13 +54,14 @@ private List<User> mUsers;
                 {
                     User user = snapshot.getValue(User.class);
                     user.setUserID(snapshot.child("UserID").getValue().toString());
+
                     if(!user.getPhoneNumber().equals(firebaseUser.getPhoneNumber()))
                     {
                         mUsers.add(user);
                     }
                 }
 
-                userAdapter = new UserAdapter(getContext(),mUsers);
+                userAdapter = new UserAdapter(getContext(),mUsers,false);
                 recyclerView.setAdapter(userAdapter);
             }
 

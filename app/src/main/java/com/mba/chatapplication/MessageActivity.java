@@ -3,6 +3,7 @@ package com.mba.chatapplication;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import Model.Chat;
 import Model.User;
@@ -47,6 +50,7 @@ ImageButton btn_send;
 EditText text_sent;
 Message_Adapter messageAdapter;
 List<Chat> mChat;
+ValueEventListener valueEventListener;
     androidx.recyclerview.widget.RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ List<Chat> mChat;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                startActivity(new Intent(MessageActivity.this,ChatActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
@@ -122,6 +126,33 @@ List<Chat> mChat;
                 }
 
         });
+        seenMessage(phoneNumber);
+
+    }
+    private  void seenMessage(final String phoneNumber)
+    {
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        valueEventListener = reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot:dataSnapshot.getChildren())
+                {
+                    Chat chat = snapshot.getValue(Chat.class);
+                    assert chat != null;
+                    if(!chat.getReceiver().equals(fuser.getPhoneNumber())&& chat.getSender().equals(phoneNumber))
+                    {
+                            HashMap<String,Object> hashMap = new HashMap<>();
+                            hashMap.put("isseen",true);
+                            snapshot.getRef().updateChildren(hashMap);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
     private void sendMessage(String sender,String receiver,String message)
     {
@@ -130,10 +161,33 @@ List<Chat> mChat;
         hashMap.put("sender",sender);
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
+        hashMap.put("isseen",false);
         reference.child("Chats").push().setValue(hashMap);
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void status(String status)
+    {
+        reference = FirebaseDatabase.getInstance().getReference("users").child(Objects.requireNonNull(fuser.getPhoneNumber()));
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        reference.updateChildren(hashMap);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
     private void readMessage(final String PhoneNumber, final String UserPhoneNumber, final String ImageURL){
         mChat = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference("Chats");

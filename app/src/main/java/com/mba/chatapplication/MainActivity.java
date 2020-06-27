@@ -21,9 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
     RelativeLayout rellay;
     View txt;
-FirebaseUser firebaseUser;
+
+    FirebaseUser firebaseUser;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference().child("users");
+
     ;
     Handler handler = new Handler();
 

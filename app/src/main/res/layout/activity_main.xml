@@ -32,6 +32,7 @@
         android:textSize="70sp"
 
         android:gravity="center_horizontal" />
+
     <LinearLayout
         android:layout_below="@+id/logo"
         android:id="@+id/ll"

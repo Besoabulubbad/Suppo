@@ -49,7 +49,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimaryDark"
-       android:contentDescription="TODO" android:src="@drawable/ic_account" />
+        android:src="@drawable/ic_account" />
         <TextView
             android:layout_marginTop="15dp"
             android:layout_below="@id/imageButton1"

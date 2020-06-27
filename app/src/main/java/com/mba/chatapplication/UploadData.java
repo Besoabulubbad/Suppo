@@ -130,8 +130,10 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                             myRef.child(firebaseUser.getPhoneNumber()).child("fName").setValue(fn.getText().toString());
                             myRef.child(firebaseUser.getPhoneNumber()).child("lName").setValue(ln.getText().toString());
                             myRef.child(firebaseUser.getPhoneNumber()).child("passCode").setValue(passcode.getText().toString());
+                            myRef.child(firebaseUser.getPhoneNumber()).child("status").setValue("offline");
 
-                                        myRef.child(firebaseUser.getPhoneNumber()).child("fName").addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            myRef.child(firebaseUser.getPhoneNumber()).child("fName").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.exists()) {
