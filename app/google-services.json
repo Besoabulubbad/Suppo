@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:303755054695:android:bdb02ce58a59723a86cec2",
+        "mobilesdk_app_id": "1:303755054695:android:122aefa536d93ca486cec2",
         "android_client_info": {
           "package_name": "com.mba.chatapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "303755054695-raluu9h9h6it9tdho9v84k5uplsfg4q6.apps.googleusercontent.com",
+          "client_id": "303755054695-rh2nv0j2vq378vbb9r497glphp5jde9e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mba.chatapplication",
-            "certificate_hash": "7b1254bc719e5135b05f2eef739e6ba4b24196dd"
+            "certificate_hash": "8106df14c92c19d12b4ee6ba7130503c1a52605e"
           }
         },
         {

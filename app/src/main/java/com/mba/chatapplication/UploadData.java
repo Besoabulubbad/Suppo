@@ -1,16 +1,21 @@
 package com.mba.chatapplication;
 
+import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +24,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,14 +42,22 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class UploadData extends AppCompatActivity  implements View.OnClickListener{
+public class UploadData extends AppCompatActivity  implements View.OnClickListener,AsyncResponce{
     ImageButton profilePicture;
     EditText fn;
     EditText ln;
-    Uri uri;
     ProgressDialog progressDialog;
     com.google.android.material.textfield.TextInputEditText passcode;
     EditText rep;
@@ -83,15 +98,19 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
         profilePicture.setOnClickListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageButton1:
-                 GetImageFromGallery();
+                try {
+                    GetImageFromGallery();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
-
-            break;
+                break;
                 case R.id.next:
                     if(fn.getText().toString().equals("")| fn.getText().toString().length()<=2 ){
                         fn.setError("Wrong Name");
@@ -120,8 +139,8 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                     else
                         {
                             progressDialog = new ProgressDialog(UploadData.this);
-                            progressDialog.setMessage("Loading..."); // Setting Message
-                            progressDialog.setTitle("ProgressDialog"); // Setting Title
+                            progressDialog.setMessage("Please wait..."); // Setting Message
+                            progressDialog.setTitle("Image processing"); // Setting Title
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
                             progressDialog.show(); // Display Progress Dialog
                             progressDialog.setCancelable(false);
@@ -168,35 +187,79 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
 
         }
     }
-    public void GetImageFromGallery(){
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private static final int  CROP_FROM_CAMERA=1;
+    private static final int CAMERA_REQUEST = 2;
+    Uri photoURI;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void GetImageFromGallery() throws IOException {
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+        } else {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+                    // Error occurred while creating the File
 
-        GalIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(Intent.createChooser(GalIntent, "Select Image From Gallery"), 2);
-
-    }
-    public void ImageCropFunction() {
-        // Image Crop Code
-        try {
-            CropIntent = new Intent("com.android.camera.action.CROP");
-
-            CropIntent.setDataAndType(uri, "image/*");
-
-            CropIntent.putExtra("crop", "true");
-            CropIntent.putExtra("outputX", 300);
-            CropIntent.putExtra("outputY", 300);
-            CropIntent.putExtra("aspectX", 1);
-            CropIntent.putExtra("aspectY", 1);
-            CropIntent.putExtra("scaleUpIfNeeded", true);
-            CropIntent.putExtra("return-data", true);
-
-            startActivityForResult(CropIntent, 1);
-
-        } catch (ActivityNotFoundException e) {
-
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                     photoURI = FileProvider.getUriForFile(this,
+                            "com.mba.chatapplication.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+                }
+            }
         }
     }
+    private void doCrop(Uri uri) {
+        CropImage.activity(uri).setAspectRatio(300,400)
+                .start(this);
+    }
+                String currentPhotoPath;
+
+                private File createImageFile() throws IOException {
+                    // Create an image file name
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + "_";
+                    File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    File image = File.createTempFile(
+                            imageFileName,  /* prefix */
+                            ".jpg",         /* suffix */
+                            storageDir      /* directory */
+                    );
+
+                    // Save a file: path for use with ACTION_VIEW intents
+                    currentPhotoPath = image.getAbsolutePath();
+                    return image;
+                }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+            else
+            {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
 
     public Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
@@ -211,45 +274,85 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
         // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                bitmap.getWidth() / 2, paint);
+        canvas.drawCircle(bitmap.getWidth() >> 1, bitmap.getHeight() >> 1,
+                bitmap.getWidth() >> 1, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
         //return _bmp;
         return output;
     }
+    public Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException{
+        InputStream input = this.getContentResolver().openInputStream(uri);
 
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1)) {
+            return null;
+        }
+
+        int originalSize = Math.max(onlyBoundsOptions.outHeight, onlyBoundsOptions.outWidth);
+
+        double ratio = (originalSize > 300) ? (originalSize / 300) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither = true; //optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
+    Bitmap photo;
+    Uri resultUri;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 2) {
-
-            if (data != null) {
-
-                uri = data.getData();
-
-                ImageCropFunction();
-
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+        {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                 resultUri = result.getUri();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
-        }
-        else if(requestCode==1) {
-            if (data != null) {
-
-                Bundle bundle = data.getExtras();
-
-                Bitmap bitmap = bundle.getParcelable("data");
-                profilePicture.setImageBitmap(getCroppedBitmap(bitmap));
-                profilePicture.setBackground(ContextCompat.getDrawable(this,R.drawable.drawbg));
-
-                handleUpload(bitmap);
+            try {
+                photo = getThumbnail(resultUri);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            assert photo != null;
+
+            profilePicture.setImageBitmap(getCroppedBitmap(photo));
+            profilePicture.setBackground(ContextCompat.getDrawable(this, R.drawable.drawbg));
+
+            handleUpload(photo);
+        }
+        if (requestCode==2) {
+          doCrop(photoURI);
+        }
         }
 
 
 
-        }
+
+
+
+
 
 
     private  void handleUpload (Bitmap bitmap)
@@ -282,14 +385,21 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                     }
                 });
     }
+    public Uri url;
     private void getDownloadUrl(StorageReference reference, final ProgressDialog p)
     {
         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                url=uri;
+                GetFaceId getFaceId = new GetFaceId();
+                getFaceId.delegate=UploadData.this;
+                getFaceId.execute(url);
                 setUserPicture(uri,p);
+
             }
         });
+
     }
     private void setUserPicture(Uri uri, final ProgressDialog p)
 
@@ -302,14 +412,12 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        p.dismiss();
                         Toast.makeText(UploadData.this,"Profile Picture Success..", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        p.dismiss();
                         Toast.makeText(UploadData.this,"Profile Image Failed",Toast.LENGTH_SHORT)
                                 .show();
                     }
@@ -320,4 +428,14 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
 
     }
 
+    @Override
+    public void processFinish(String output) throws JSONException {
+        progressDialog.dismiss();
+        if(output.equals("[]"))
+        {
+            Toast.makeText(UploadData.this,"No face detected in the picture, Please take another picture with clear face",Toast.LENGTH_SHORT).show();
+            profilePicture.setBackground(ContextCompat.getDrawable(this, R.color.colorPrimaryDark));
+            image = profilePicture.getBackground().hashCode();
+        }
+    }
 }
