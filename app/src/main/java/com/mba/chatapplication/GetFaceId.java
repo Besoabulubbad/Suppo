@@ -3,7 +3,6 @@ package com.mba.chatapplication;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class GetFaceId extends AsyncTask<Uri,String,String> {
     protected String doInBackground(Uri... strings) {
         String responseJson = null;
         Uri url = strings[0];
-        URIBuilder builder = null;
 
 
 
