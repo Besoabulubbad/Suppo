@@ -30,7 +30,6 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mba.chatapplication.Fragments.ChatsFragment;
-import com.mba.chatapplication.Fragments.ProfileFragment;
 import com.mba.chatapplication.Fragments.UsersFragment;
 
 import java.io.File;
@@ -78,7 +77,6 @@ public class ChatActivity extends AppCompatActivity {
 ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
 viewPagerAdapter.addFragment(new ChatsFragment(),"Chats");
 viewPagerAdapter.addFragment(new UsersFragment(),"Users");
-viewPagerAdapter.addFragment(new ProfileFragment(),"Profile");
 
 viewPager.setAdapter(viewPagerAdapter);
 tabLayout.setupWithViewPager(viewPager);

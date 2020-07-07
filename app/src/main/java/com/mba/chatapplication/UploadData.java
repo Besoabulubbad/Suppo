@@ -103,11 +103,9 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageButton1:
-                try {
-                    GetImageFromGallery();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                    GetImageFromCamera();
+
 
 
                 break;
@@ -188,11 +186,10 @@ public class UploadData extends AppCompatActivity  implements View.OnClickListen
         }
     }
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    private static final int  CROP_FROM_CAMERA=1;
     private static final int CAMERA_REQUEST = 2;
     Uri photoURI;
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void GetImageFromGallery() throws IOException {
+    public void GetImageFromCamera() {
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
         } else {

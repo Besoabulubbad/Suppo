@@ -16,12 +16,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class GetFaceId extends AsyncTask<Uri,String,String> {
-    String response1;
     String uri;
     public AsyncResponce delegate = null;
 
     @Override
-
     protected String doInBackground(Uri... strings) {
         String responseJson = null;
         Uri url = strings[0];
