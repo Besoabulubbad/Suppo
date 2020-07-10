@@ -229,6 +229,7 @@ public class Login  extends AppCompatActivity implements View.OnClickListener , 
                                     } else {
                                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                             etOtp.setError("Invalid OTP code.");
+                                            progressDialog1.dismiss();
 
                                         }
                                     }
