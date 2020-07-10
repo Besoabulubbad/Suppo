@@ -55,18 +55,7 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
     public void onBindViewHolder(@NonNull final Message_Adapter.ViewHolder holder, int position) {
         Chat chat = mChat.get(position);
         holder.show_message.setText(chat.getMessage());
-        if(position == mChat.size()-1)
-        {
-            if(chat.isIsseen())
-            {
-                holder.isSeen.setText("Seen");
-            }
-            else
-            {holder.isSeen.setText("Delivered");
-            }
-        }
-        else
-            holder.isSeen.setVisibility(View.GONE);
+
 
     }
 

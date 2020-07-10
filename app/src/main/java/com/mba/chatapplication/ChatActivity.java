@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
@@ -31,20 +29,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mba.chatapplication.Fragments.ChatsFragment;
 import com.mba.chatapplication.Fragments.UsersFragment;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import Model.User;
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ChatActivity extends AppCompatActivity {
     CircleImageView profileImage;
     TextView username;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    String ref;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     TabLayout tabLayout;
     ViewPager viewPager;

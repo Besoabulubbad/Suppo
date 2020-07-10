@@ -161,7 +161,6 @@ ValueEventListener valueEventListener;
         hashMap.put("sender",sender);
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
-        hashMap.put("isseen",false);
         reference.child("Chats").push().setValue(hashMap);
 
 
@@ -171,7 +170,6 @@ ValueEventListener valueEventListener;
     {
         reference = FirebaseDatabase.getInstance().getReference("users").child(Objects.requireNonNull(fuser.getPhoneNumber()));
         HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("status",status);
         reference.updateChildren(hashMap);
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

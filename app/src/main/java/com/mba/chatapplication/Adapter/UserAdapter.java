@@ -66,24 +66,7 @@ public UserAdapter(Context mContext,List<User> mUser,boolean isChat)
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(isChat)
-        {
-            if(user.getStatus()=="online")
-            {
-                holder.image_on.setVisibility(View.VISIBLE);
-                holder.image_off.setVisibility(View.GONE);
-            }
-            else
-                {
-                    holder.image_on.setVisibility(View.GONE);
-                    holder.image_off.setVisibility(View.VISIBLE);
-                }
-        }
-        else
-            {
-                holder.image_on.setVisibility(View.GONE);
-                holder.image_off.setVisibility(View.GONE);
-            }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
