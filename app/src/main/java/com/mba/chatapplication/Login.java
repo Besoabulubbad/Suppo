@@ -88,6 +88,7 @@ public class Login  extends AppCompatActivity implements View.OnClickListener , 
         setContentView(R.layout.activity_main);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         initFields();
+
         ccp1.registerCarrierNumberEditText(etPhone);
         ccp1.setNumberAutoFormattingEnabled(false);
         //Add it in the onCreate method, after calling method initFields()
