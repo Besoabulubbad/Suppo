@@ -28,7 +28,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path"/>
         </provider>
-        <activity android:name=".MainActivity">
+        <activity android:name=".SwitcherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,6 +36,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login"/>
+        <activity android:name=".MainActivity"/>
+
         <activity android:name=".UploadData"/>
         <activity android:name=".FireBaseRegister"/>
         <activity android:name=".ChatActivity"/>
