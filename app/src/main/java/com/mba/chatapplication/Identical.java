@@ -29,7 +29,7 @@ public class Identical extends AsyncTask<ArrayList<String>,String,Boolean> {
         Request request = new Request.Builder()
                 .url("https://eastus.api.cognitive.microsoft.com/face/v1.0/verify")
                 .method("POST", body)
-                .addHeader("Ocp-Apim-Subscription-Key", "a7765594776345408145562743a14743")
+                .addHeader("Ocp-Apim-Subscription-Key", "YOUR KEY")
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
