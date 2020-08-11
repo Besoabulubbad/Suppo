@@ -34,7 +34,7 @@ public class GetFaceId extends AsyncTask<Uri,String,String> {
         Request request = new Request.Builder()
                 .url(Objects.requireNonNull(HttpUrl.get(uri)))
                 .method("POST", body)
-                .addHeader("Ocp-Apim-Subscription-Key", "a7765594776345408145562743a14743")
+                .addHeader("Ocp-Apim-Subscription-Key", "YOUR_KEY")
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
