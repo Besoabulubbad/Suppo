@@ -472,7 +472,7 @@ ArrayList<String> faceIds = new ArrayList<>();
             Request request = new Request.Builder()
                     .url(Objects.requireNonNull(HttpUrl.get(uri)))
                     .method("POST", body)
-                    .addHeader("Ocp-Apim-Subscription-Key", "a7765594776345408145562743a14743")
+                    .addHeader("Ocp-Apim-Subscription-Key", "YOUR KEY")
                     .addHeader("Content-Type", "application/json")
                     .build();
             try {
