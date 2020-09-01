@@ -23,15 +23,6 @@
         "hospitalId": 5,
         "hospitalName": "مستشفى الجزيرة",
         "hospitalLogo": ""
-    },
-    {
-        "hospitalId": 6,
-        "hospitalName": "مستشفى الفنلندي",
-        "hospitalLogo": ""
-    },
-    {
-        "hospitalId": 7,
-        "hospitalName": "مستشفى التخصصي للعيون",
-        "hospitalLogo": ""
     }
+
 ]
