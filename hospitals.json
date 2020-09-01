@@ -1,0 +1,37 @@
+[
+    {
+        "hospitalId": 1,
+        "hospitalName": "مستشفى الأستشاري",
+        "hospitalLogo": ""
+    },
+    {
+        "hospitalId": 2,
+        "hospitalName": "مستشفى الكندي",
+        "hospitalLogo": "/Logos/al_kindi.png"
+    },
+    {
+        "hospitalId": 3,
+        "hospitalName": "مستشفى الأمل",
+        "hospitalLogo": "/Logos/al_amal.png"
+    },
+    {
+        "hospitalId": 4,
+        "hospitalName": "مستشفى قصر شبيب",
+        "hospitalLogo": ""
+    },
+    {
+        "hospitalId": 5,
+        "hospitalName": "مستشفى الجزيرة",
+        "hospitalLogo": ""
+    },
+    {
+        "hospitalId": 6,
+        "hospitalName": "مستشفى الفنلندي",
+        "hospitalLogo": ""
+    },
+    {
+        "hospitalId": 7,
+        "hospitalName": "مستشفى التخصصي للعيون",
+        "hospitalLogo": ""
+    }
+]
